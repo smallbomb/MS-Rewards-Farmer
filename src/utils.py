@@ -319,6 +319,11 @@ class Utils:
             return True
         return False
 
+    def update_rewards_cookie(self) -> None:
+        self.webdriver.get(
+            "https://www.bing.com/fd/auth/signin?action=interactive&provider=windows_live_id&return_url=https://www.bing.com/msrewards/api/v1/enroll?partnerId=BingRewards"
+        )
+
     def getAccountPoints(self) -> int:
         if PREFER_BING_INFO:
             return self.getBingInfo()["userInfo"]["balance"]
@@ -553,9 +558,9 @@ def setupAccounts(config: Config) -> Config:
         [ACCOUNT] No valid account provided.
         [ACCOUNT] Please provide a valid account, either using command line arguments or a configuration file.
         [ACCOUNT] For command line, please use the following arguments (change the email and password):
-        [ACCOUNT]   `--email youremail@domain.com --password yourpassword` 
+        [ACCOUNT]   `--email youremail@domain.com --password yourpassword`
         [ACCOUNT] For configuration file, please generate a configuration file using the `-C` argument,
-        [ACCOUNT]   then edit the generated file by replacing the email and password using yours. 
+        [ACCOUNT]   then edit the generated file by replacing the email and password using yours.
         """
         logging.error(noAccountsNotice)
         sys.exit(1)

@@ -75,6 +75,7 @@ class Login:
             else:
                 logging.info("[LOGIN] Logging-in...")
                 self.execute_login()
+                self.utils.update_rewards_cookie()
                 logging.info("[LOGIN] Logged-in successfully!")
                 self.check_locked_user()
                 self.check_banned_user()
@@ -94,7 +95,7 @@ class Login:
             emailField = self.utils.waitUntilVisible(By.ID, "i0116", 5)
             logging.debug("[LOGIN] Old login form detected.")
             is_new_login_form = False
-    
+
         logging.info("[LOGIN] Entering email...")
         emailField.click()
         emailField.send_keys(self.browser.email)
@@ -103,7 +104,7 @@ class Login:
             self.utils.waitUntilClickable(By.CSS_SELECTOR, "[data-testid='primaryButton']").click()
         else:
             self.utils.waitUntilClickable(By.ID, "idSIButton9").click()
-    
+
         # Passwordless check
         isPasswordless = False
         with contextlib.suppress(TimeoutException):
