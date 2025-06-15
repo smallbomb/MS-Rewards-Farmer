@@ -330,12 +330,16 @@ class Utils:
         return self.getDashboardData()["userStatus"]["availablePoints"]
 
     def getGoalPoints(self) -> int:
-        if PREFER_BING_INFO:
+        if self.getBingInfo()["flyoutResult"]["userGoal"] is None:
+            return 0
+        elif PREFER_BING_INFO:
             return self.getBingInfo()["flyoutResult"]["userGoal"]["price"]
         return self.getDashboardData()["userStatus"]["redeemGoal"]["price"]
 
     def getGoalTitle(self) -> str:
-        if PREFER_BING_INFO:
+        if self.getBingInfo()["flyoutResult"]["userGoal"] is None:
+            return ''
+        elif PREFER_BING_INFO:
             return self.getBingInfo()["flyoutResult"]["userGoal"]["title"]
         return self.getDashboardData()["userStatus"]["redeemGoal"]["title"]
 
