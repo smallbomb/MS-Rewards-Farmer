@@ -1,0 +1,10 @@
+x-defaults: &defaults
+  restart: on-failure
+  volumes:
+      - &vol1 /etc/localtime:/etc/localtime:ro
+      - &vol2 ./src:/app/src:ro # for develop
+  environment:
+      - RUN_ONCE=true
+      - CRON_SCHEDULE=0 4 * * *
+
+services:
