@@ -2,6 +2,8 @@ import csv
 import json
 import logging
 import logging.config
+import os
+import signal
 import sys
 from datetime import datetime
 from enum import Enum, auto
@@ -130,11 +132,11 @@ class AppriseSummary(Enum):
     """
     ON_ERROR = auto()
     """
-    only sends email if for some reason there's remaining searches 
+    only sends email if for some reason there's remaining searches
     """
     NEVER = auto()
     """
-    never send summary 
+    never send summary
     """
 
 
@@ -264,7 +266,14 @@ def save_previous_points_data(data):
         json.dump(data, file, indent=4)
 
 
+def handle_sigterm(signum, frame):
+    logging.debug(f"Received SIGTERM: {frame}")
+    sys.exit(0)
+
+
 if __name__ == "__main__":
+    if os.path.exists("/.dockerenv"):
+        signal.signal(signal.SIGTERM, handle_sigterm)
     try:
         main()
     except Exception as e:
